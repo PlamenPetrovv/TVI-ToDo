@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 
 const tasks = ref<{ id: number; text: string; completed: boolean; onHold: string }[]>([])
 const newTask = ref('')
+const editTaskId = ref<number | null>(null)
+const editTaskText = ref('')
 
 onMounted(() => {
   const savedTasks = localStorage.getItem('tasks')
@@ -36,7 +38,7 @@ function deleteTask(id: number) {
 function toggleOnHold(id: number) {
   const task = tasks.value.find((task) => task.id === id)
   if (task) {
-    task.onHold = task.onHold ? '' : ''
+    task.onHold = task.onHold ? '' : 'on hold'
     localStorage.setItem('tasks', JSON.stringify(tasks.value))
   }
 }
@@ -46,6 +48,23 @@ function updateOnHold(id: number, value: string) {
   if (task) {
     task.onHold = value
     localStorage.setItem('tasks', JSON.stringify(tasks.value))
+  }
+}
+
+function startEditingTask(id: number, currentText: string) {
+  editTaskId.value = id
+  editTaskText.value = currentText
+}
+
+function saveEdit() {
+  if (editTaskId.value !== null) {
+    const task = tasks.value.find((task) => task.id === editTaskId.value)
+    if (task) {
+      task.text = editTaskText.value
+      localStorage.setItem('tasks', JSON.stringify(tasks.value))
+      editTaskId.value = null
+      editTaskText.value = ''
+    }
   }
 }
 </script>
@@ -68,8 +87,15 @@ function updateOnHold(id: number, value: string) {
           <button class="btn-style" @click="toggleOnHold(task.id)">
             {{ task.onHold ? 'Remove On Hold' : 'On Hold' }}
           </button>
+          <button class="btn-style" @click="startEditingTask(task.id, task.text)">Edit</button>
         </div>
 
+        <div v-if="editTaskId === task.id">
+          <input v-model="editTaskText" />
+          <button @click="saveEdit">Save</button>
+        </div>
+
+        <!-- Показване на текстово поле за задачите в режим "on hold" -->
         <textarea
           v-if="task.onHold"
           v-model="task.onHold"
@@ -141,6 +167,7 @@ h1 {
   background-color: white;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 15px;
 }
 
 .task-item span {
@@ -150,19 +177,19 @@ h1 {
 
 .buttons {
   display: flex;
-  gap: 1rem;
-  margin-right: 1rem;
+  gap: 20px;
+  justify-content: center;
 }
 
 .btn-style {
-  background-color: rgb(224, 47, 47);
+  background-color: rgb(187, 4, 4);
   padding: 0.5rem 1rem;
   border-radius: 4px;
 }
 
 .task-item .buttons {
   display: flex;
-  gap: 25px;
+  gap: 5px;
   justify-content: center;
 }
 
@@ -173,6 +200,14 @@ h1 {
 .completed {
   text-decoration: line-through;
   color: grey;
+}
+
+.task-item input {
+  flex: 1;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 .task-item textarea {
