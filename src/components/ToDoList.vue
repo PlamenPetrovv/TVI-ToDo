@@ -94,7 +94,7 @@ function saveEdit() {
 
         <div v-if="editTaskId === task.id">
           <input v-model="editTaskText" />
-          <button @click="saveEdit">Save</button>
+          <button class="btn-style-blue" @click="saveEdit">Save</button>
         </div>
 
         <!-- Показване на текстово поле за задачите в режим "on hold" -->
@@ -187,6 +187,7 @@ h1 {
   background-color: rgb(3, 153, 253);
   padding: 0.5rem 1rem;
   margin-right: 1rem;
+  margin-left: 1rem;
   border-radius: 4px;
 }
 .btn-style {
@@ -217,6 +218,7 @@ h1 {
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  width: 500px;
 }
 
 .task-item textarea {
