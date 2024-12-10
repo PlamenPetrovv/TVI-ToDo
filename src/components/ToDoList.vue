@@ -97,7 +97,6 @@ function saveEdit() {
           <button class="btn-style-blue" @click="saveEdit">Save</button>
         </div>
 
-        <!-- Показване на текстово поле за задачите в режим "on hold" -->
         <textarea
           v-if="task.onHold"
           v-model="task.onHold"
@@ -225,5 +224,42 @@ h1 {
   border-radius: 4px;
   border: 1px solid #ccc;
   max-width: 500px;
+}
+
+@media (max-width: 768px) {
+  .input-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-container input,
+  .input-container button {
+    width: 100%;
+  }
+
+  .task-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .task-item input,
+  .task-item textarea {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .btn-style,
+  .btn-style-blue {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    margin-left: 0;
+  }
 }
 </style>
