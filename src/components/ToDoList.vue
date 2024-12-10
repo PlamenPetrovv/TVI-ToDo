@@ -83,11 +83,13 @@ function saveEdit() {
         </span>
 
         <div class="buttons">
+          <button class="btn-style-blue" @click="startEditingTask(task.id, task.text)">
+            Edit task
+          </button>
           <button class="btn-style" @click="deleteTask(task.id)">Delete</button>
           <button class="btn-style" @click="toggleOnHold(task.id)">
             {{ task.onHold ? 'Remove On Hold' : 'On Hold' }}
           </button>
-          <button class="btn-style" @click="startEditingTask(task.id, task.text)">Edit</button>
         </div>
 
         <div v-if="editTaskId === task.id">
@@ -181,9 +183,15 @@ h1 {
   justify-content: center;
 }
 
+.btn-style-blue {
+  background-color: rgb(3, 153, 253);
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+}
 .btn-style {
   background-color: rgb(187, 4, 4);
   padding: 0.5rem 1rem;
+  margin-right: 1rem;
   border-radius: 4px;
 }
 
