@@ -203,10 +203,6 @@ h1 {
   justify-content: center;
 }
 
-.task-item button:hover {
-  background-color: #c15151;
-}
-
 .completed {
   text-decoration: line-through;
   color: grey;
