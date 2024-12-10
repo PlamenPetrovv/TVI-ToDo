@@ -36,7 +36,7 @@ function deleteTask(id: number) {
 function toggleOnHold(id: number) {
   const task = tasks.value.find((task) => task.id === id)
   if (task) {
-    task.onHold = task.onHold ? '' : 'On Hold because'
+    task.onHold = task.onHold ? '' : ''
     localStorage.setItem('tasks', JSON.stringify(tasks.value))
   }
 }
@@ -58,23 +58,24 @@ function updateOnHold(id: number, value: string) {
       <button @click="addTask">Add</button>
     </div>
     <div class="tasks-container">
-      <div v-for="task in tasks" :key="task.id" class="task-item">
-        <span @click="toggleTask(task.id)" :class="{ completed: task.completed }">{{
-          task.text
-        }}</span>
-        <button @click="deleteTask(task.id)">Delete</button>
+      <div class="task-item" v-for="task in tasks" :key="task.id">
+        <span @click="toggleTask(task.id)" :class="{ completed: task.completed }">
+          {{ task.text }}
+        </span>
 
-        <button @click="toggleOnHold(task.id)">
-          {{ task.onHold ? 'Remove On Hold' : 'On Hold' }}
-        </button>
-
-        <div v-if="task.onHold">
-          <textarea
-            v-model="task.onHold"
-            placeholder="Enter reason for OnHold"
-            @blur="updateOnHold(task.id, task.onHold)"
-          />
+        <div class="buttons">
+          <button class="btn-style" @click="deleteTask(task.id)">Delete</button>
+          <button class="btn-style" @click="toggleOnHold(task.id)">
+            {{ task.onHold ? 'Remove On Hold' : 'On Hold' }}
+          </button>
         </div>
+
+        <textarea
+          v-if="task.onHold"
+          v-model="task.onHold"
+          placeholder="Enter reason for OnHold"
+          @input="updateOnHold(task.id, task.onHold)"
+        ></textarea>
       </div>
     </div>
   </div>
@@ -83,7 +84,6 @@ function updateOnHold(id: number, value: string) {
 <style scoped>
 .todo-container {
   width: 100%;
-  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -144,22 +144,30 @@ h1 {
 }
 
 .task-item span {
-  flex-grow: 1;
+  flex: 1;
   cursor: pointer;
 }
 
-.task-item button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.buttons {
+  display: flex;
+  gap: 1rem;
   margin-right: 1rem;
 }
 
+.btn-style {
+  background-color: rgb(224, 47, 47);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+.task-item .buttons {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+}
+
 .task-item button:hover {
-  background-color: #d32f2f;
+  background-color: #c15151;
 }
 
 .completed {
@@ -168,11 +176,12 @@ h1 {
 }
 
 .task-item textarea {
-  width: 100%;
+  flex: 2;
   padding: 5px;
   font-size: 14px;
   height: 60px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  max-width: 500px;
 }
 </style>
