@@ -187,6 +187,7 @@ h1 {
   background-color: rgb(3, 153, 253);
   padding: 0.5rem 1rem;
   margin-right: 1rem;
+  border-radius: 4px;
 }
 .btn-style {
   background-color: rgb(187, 4, 4);
